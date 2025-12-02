@@ -17,9 +17,7 @@ new #[Layout('layouts.guest')] class extends Component
             'email' => ['required', 'string', 'email'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
+     
         $status = Password::sendResetLink(
             $this->only('email')
         );
@@ -36,26 +34,44 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm p-4 mt-5">
+            <h4 class="card-title text-center mb-4">Forgot Password</h4>
+
+            <div class="mb-4 text-muted">
+                {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            </div>
+
+            @if (session('status'))
+                <div class="alert alert-success mb-4">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <form wire:submit="sendPasswordResetLink">
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        wire:model="email"
+                        id="email"
+                        class="form-control @error('email') is-invalid @enderror"
+                        type="email"
+                        name="email"
+                        required
+                        autofocus
+                    >
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        {{ __('Email Password Reset Link') }}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form wire:submit="sendPasswordResetLink">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
 </div>
