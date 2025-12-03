@@ -107,7 +107,7 @@
         <!-- Pagination -->
         @if($listings->hasPages())
             <div class="mt-5">
-                {{ $listings->links() }}
+                {{ $listings->links('pagination::bootstrap-5') }}
             </div>
         @endif
     </div>

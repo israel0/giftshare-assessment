@@ -16,21 +16,7 @@
 
         {{-- Navbar links --}}
         <div class="collapse navbar-collapse" :class="{'show': open, 'hidden': !open}" id="navbarSupportedContent">
-            {{-- Left links --}}
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('dashboard')) active @endif"
-                       href="{{ route('dashboard') }}" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @if(request()->routeIs('listings.listing-index')) active @endif"
-                       href="{{ route('listings.listing-index') }}" wire:navigate>
-                        {{ __('Listings') }}
-                    </a>
-                </li>
-            </ul>
+
 
             {{-- Right links --}}
             <ul class="navbar-nav ms-auto">

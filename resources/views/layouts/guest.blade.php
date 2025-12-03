@@ -29,7 +29,7 @@
         {{-- @vite(['resources/js/app.js']) --}}
         @livewireStyles
     </head>
-    <body >
+    <body>
 
         <div class="justify-content-center align-items-center min-vh-100 py-4 py-sm-5 bg-light">
 
