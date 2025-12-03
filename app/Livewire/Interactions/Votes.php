@@ -58,7 +58,7 @@ class Votes extends Component
 
     public function voteUpdated()
     {
-        $this->dispatchBrowserEvent('vote-updated');
+        $this->dispatch('vote-updated');
     }
 
     public function render()

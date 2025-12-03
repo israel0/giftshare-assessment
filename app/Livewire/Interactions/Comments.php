@@ -62,7 +62,7 @@ class Comments extends Component
     public function replyToComment($commentId)
     {
         $this->replyTo = $commentId;
-        $this->dispatchBrowserEvent('focus-reply-input');
+        $this->dispatch('focus-reply-input');
     }
 
     public function addReply(CommentService $commentService, $parentId)
@@ -111,7 +111,7 @@ class Comments extends Component
 
     public function commentAdded()
     {
-        $this->dispatchBrowserEvent('comment-added');
+        $this->dispatch('comment-added');
     }
 
     public function render()
