@@ -51,7 +51,6 @@ class ListingService
 
     public function deleteListing(Listing $listing): bool
     {
-        // Delete associated photos
         foreach ($listing->photos as $photo) {
             Storage::delete([$photo->path, $photo->thumbnail_path]);
         }
