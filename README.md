@@ -1,59 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎁 GiftShare Community
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A platform where registered users can post items they’re giving away for free. Other users can browse, vote, and comment on listings.
+### ✨ Tech Stack
 
-## About Laravel
+The application is built using the following technologies:
+* **Backend Framework:** Laravel 12
+* **Frontend Framework:** Livewire
+* **Styling:** Bootstrap 5
+* **Database:** MariaDB
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Table of Contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* [Features](#features)
+* [Screenshots/Demo](#screenshotsdemo)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Database Schema](#database-schema)
+* [Key Livewire Components](#key-livewire-components)
+* [Contributing](#contributing)
+* [License](#license)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## ✅ Features
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The GiftShare platform includes the following core functionalities:
 
-## Laravel Sponsors
+* **Item Sharing:** Users can easily **post items** they want to share with the community.
+* **Advanced Browsing:** Users can **browse items** by **category**, **city**, and **status** (Available / Gifted).
+* **Filtering & Sorting:** Comprehensive filtering options including **search**, and sorting by **newest**, **oldest**, **most upvoted**, and **most commented**.
+* **Community Tracking:** Track community giving progress with **statistics** and **progress bars**.
+* **User Authentication:** Secure **user authentication** is required for posting items.
+* **Responsive Design:** Fully responsive layout using **Bootstrap 5** for seamless use on any device.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+## 💻 Installation
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Follow these steps to set up the project locally.
 
-## Contributing
+### Prerequisites
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Ensure you have the following installed:
+* PHP (v8.1+)
+* Composer
+* Node.js & npm
+* MySQL/MariaDB
 
-## Code of Conduct
+### Step-by-Step Guide
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+1.  **Clone the Repository**
 
-## Security Vulnerabilities
+    ```bash
+    git clone [https://github.com/israel0/giftshare-assessment.git](https://github.com/israel0/giftshare-assessment.git)
+    cd giftshare-assessment
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2.  **Install Dependencies**
 
-## License
+    Install PHP dependencies via Composer and frontend dependencies via npm.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```bash
+    composer install
+    npm install
+    npm run build
+    ```
+
+3.  **Setup Environment File**
+
+    Copy the example environment file and generate a unique application key.
+
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+4.  **Configure Database**
+
+    Open the newly created `.env` file and update the database configuration to match your local setup.
+
+    ```ini
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=giftshare
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+
+5.  **Run Migrations and Seeders**
+
+    Execute the migrations to create the necessary tables and seed the database with initial data.
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+6.  **Create Storage Link**
+
+    Create a symbolic link for the storage directory to make publicly uploaded files accessible.
+
+    ```bash
+    php artisan storage:link
+    ```
+
+7.  **Start the Server**
+
+    Start the Laravel development server. The application will typically be available at `http://127.0.0.1:8000`.
+
+    ```bash
+    php artisan serve
+    ```
+
+---
+
+## 🚀 Usage
+
+Once the application is running:
+
+1.  Navigate to the application URL (e.g., `http://127.0.0.1:8000`).
+2.  **Register** a new user account to gain access to posting features.
+3.  Browse the **homepage** to view recently shared items.
+4.  Use the **filters** to refine the listings by category or city.
+
+---
+
+## 📊 Database Schema
+
+The core functionality revolves around key tables such as `users`, `listings`, `listingphotos`, `votes`, and `categories`.
+

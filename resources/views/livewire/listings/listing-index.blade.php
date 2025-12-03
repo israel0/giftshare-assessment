@@ -22,7 +22,7 @@
                         Every gift shared makes our community stronger.
                     </p>
                     @auth
-                        <a href="{{ route('listings.listing-create') }}" class="btn btn-light btn-lg px-4 shadow-sm">
+                        <a href="{{ route('listings.listing-create') }}" class="btn btn-primary btn-lg px-4 shadow-sm">
                             <i class="bi bi-plus-circle me-2"></i>Share an Item
                         </a>
                     @else
@@ -114,7 +114,7 @@
         <div class="card shadow-sm mb-4 border-0">
             <div class="card-header bg-white border-0 py-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 fw-bold text-primary">
+                    <h5 class="mb-0 fw-bold text-white">
                         <i class="bi bi-funnel me-2"></i>Find Perfect Items
                     </h5>
                     <small class="text-muted">{{ $listings->total() }} items found</small>
