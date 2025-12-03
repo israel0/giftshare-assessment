@@ -44,7 +44,7 @@ class ListingCard extends Component
         $voteService->toggleVote($dto);
         $this->listing->refresh();
         $this->loadUserVote();
-        $this->emit('voteUpdated');
+        $this->dispatch('voteUpdated');
     }
 
     public function render()
