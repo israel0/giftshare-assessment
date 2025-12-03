@@ -14,8 +14,8 @@ class ListingShow extends Component
     public function mount($slug, ListingService $listingService)
     {
         $this->listing = Listing::where('slug', $slug)
-            ->with(['user', 'category', 'photos', 'comments.user'])
-            ->firstOrFail();
+        ->with(['user', 'category', 'photos', 'comments.user', 'comments.replies.user'])
+        ->firstOrFail();
     }
 
     public function markAsGifted(ListingService $listingService)
@@ -39,6 +39,7 @@ class ListingShow extends Component
 
         return redirect()->route('listings.listing-index');
     }
+
 
     public function render()
     {

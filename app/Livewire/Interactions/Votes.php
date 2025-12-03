@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Livewire\Interactions;
+namespace App\Livewire\Interactions;
 
 use Livewire\Component;
 use App\Services\VoteService;
-use App\DTOs\VoteDTO;
+use App\DTO\VoteDTO;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Auth;
 
 class Votes extends Component
 {
-
     public Listing $listing;
-    public $userVote;
-    public $upvotesCount;
-    public $downvotesCount;
+    public $userVote = null;
+    public $upvotesCount = 0;
+    public $downvotesCount = 0;
 
     protected $listeners = ['voteUpdated'];
 
@@ -26,12 +25,14 @@ class Votes extends Component
 
     public function loadVoteData()
     {
-        $this->userVote = $this->listing->votes()
-            ->where('user_id', Auth::id())
-            ->value('type');
+        if (Auth::check()) {
+            $this->userVote = $this->listing->votes()
+                ->where('user_id', Auth::id())
+                ->value('type');
+        }
 
-        $this->upvotesCount = $this->listing->upvotes_count;
-        $this->downvotesCount = $this->listing->downvotes_count;
+        $this->upvotesCount = $this->listing->upvotes_count ?? 0;
+        $this->downvotesCount = $this->listing->downvotes_count ?? 0;
     }
 
     public function vote($type, VoteService $voteService)
@@ -47,9 +48,12 @@ class Votes extends Component
         );
 
         $voteService->toggleVote($dto);
+
+        // Refresh the listing data
         $this->listing->refresh();
         $this->loadVoteData();
-        $this->emit('voteUpdated');
+
+        $this->dispatch('voteUpdated');
     }
 
     public function voteUpdated()

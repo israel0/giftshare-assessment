@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Livewire\Interactions;
+namespace App\Livewire\Interactions;
 
 use Livewire\Component;
 use App\Services\CommentService;
 use App\DTOs\CommentDTO;
 use App\Models\Listing;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 
 class Comments extends Component
 {
-
     public Listing $listing;
-    public $comments;
+    public $comments = [];
     public $newComment = '';
     public $replyTo = null;
     public $replyContent = '';
@@ -36,6 +36,10 @@ class Comments extends Component
 
     public function addComment(CommentService $commentService)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $this->validate([
             'newComment' => 'required|string|min:3|max:1000'
         ]);
@@ -51,7 +55,8 @@ class Comments extends Component
 
         $this->newComment = '';
         $this->loadComments();
-        $this->emit('commentAdded');
+        $this->listing->refresh();
+        $this->dispatch('commentAdded');
     }
 
     public function replyToComment($commentId)
@@ -62,6 +67,10 @@ class Comments extends Component
 
     public function addReply(CommentService $commentService, $parentId)
     {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $this->validate([
             'replyContent' => 'required|string|min:3|max:1000'
         ]);
@@ -78,12 +87,17 @@ class Comments extends Component
         $this->replyContent = '';
         $this->replyTo = null;
         $this->loadComments();
-        $this->emit('commentAdded');
+        $this->listing->refresh();
+        $this->dispatch('commentAdded');
     }
 
     public function deleteComment(CommentService $commentService, $commentId)
     {
-        $comment = \App\Models\Comment::findOrFail($commentId);
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $comment = Comment::findOrFail($commentId);
 
         if ($comment->user_id !== Auth::id() && $this->listing->user_id !== Auth::id()) {
             abort(403);
@@ -91,7 +105,8 @@ class Comments extends Component
 
         $commentService->deleteComment($comment);
         $this->loadComments();
-        $this->emit('commentDeleted');
+        $this->listing->refresh();
+        $this->dispatch('commentDeleted');
     }
 
     public function commentAdded()

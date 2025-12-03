@@ -43,10 +43,10 @@ class CommentForm extends Component
         $commentService->createComment($dto);
 
         $this->content = '';
-        $this->emit('commentCreated');
+        $this->dispatch('commentCreated');
 
         if ($this->parentId) {
-            $this->emit('replyCreated');
+            $this->dispatch('replyCreated');
         }
 
         session()->flash('message', 'Comment posted successfully!');
