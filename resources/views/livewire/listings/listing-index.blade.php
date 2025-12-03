@@ -84,7 +84,7 @@
         <div class="row g-4">
             @forelse($listings as $listing)
                 <div class="col-xl-3 col-lg-4 col-md-6">
-                    @livewire('listings.listing-listing-card', ['listing' => $listing], key($listing->id))
+                    @livewire('listings.listing-card', ['listing' => $listing], key($listing->id))
                 </div>
             @empty
                 <div class="col-12">

@@ -3,7 +3,7 @@
 namespace App\Livewire\Interactions;
 
 use Livewire\Component;
-use App\DTO\CommentDTO;
+use App\DTOs\CommentDTO;
 use App\Models\Listing;
 use App\Services\CommentService;
 

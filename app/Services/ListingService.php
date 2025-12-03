@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\ListingDTO;
+use App\DTOs\ListingDTO;
 use App\Models\Listing;
 use App\Models\ListingPhoto;
 use App\Repositories\Contracts\ListingRepositoryInterface;

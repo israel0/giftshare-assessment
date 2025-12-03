@@ -4,7 +4,7 @@ namespace App\Livewire\Listings;
 
 use Livewire\Component;
 use App\Services\ListingService;
-use App\DTO\ListingDTO;
+use App\DTOs\ListingDTO;
 use App\Models\Listing;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;

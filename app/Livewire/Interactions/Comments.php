@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Interactions;
 
 use Livewire\Component;
 use App\Services\CommentService;
-use App\DTO\CommentDTO;
+use App\DTOs\CommentDTO;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Auth;
 

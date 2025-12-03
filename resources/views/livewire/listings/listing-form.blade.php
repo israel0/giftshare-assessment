@@ -163,7 +163,7 @@
 
                             <!-- Submit Buttons -->
                             <div class="d-flex justify-content-between pt-3 border-top">
-                                <a href="{{ $isEdit ? route('listings.show', $listing->slug) : route('listings.listing-index') }}"
+                                <a href="{{ $isEdit ? route('listings.listing-show', $listing->slug) : route('listings.listing-index') }}"
                                    class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left me-1"></i>Cancel
                                 </a>

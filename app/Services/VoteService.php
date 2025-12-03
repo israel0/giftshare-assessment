@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\VoteDTO;
+use App\DTOs\VoteDTO;
 use App\Models\Vote;
 use App\Repositories\Contracts\VoteRepositoryInterface;
 

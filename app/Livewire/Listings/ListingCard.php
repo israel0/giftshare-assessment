@@ -5,7 +5,7 @@ namespace App\Livewire\Listings;
 use Livewire\Component;
 use App\Models\Listing;
 use App\Services\VoteService;
-use App\DTO\VoteDTO;
+use App\DTOs\VoteDTO;
 use Illuminate\Support\Facades\Auth;
 
 class ListingCard extends Component

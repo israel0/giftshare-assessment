@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTO\CommentDTO;
+use App\DTOs\CommentDTO;
 use App\Models\Comment;
 use App\Models\Listing;
 use Illuminate\Support\Facades\DB;

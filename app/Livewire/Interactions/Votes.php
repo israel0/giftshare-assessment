@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Interactions;
 
 use Livewire\Component;
 use App\Services\VoteService;
-use App\DTO\VoteDTO;
+use App\DTOs\VoteDTO;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Auth;
 
