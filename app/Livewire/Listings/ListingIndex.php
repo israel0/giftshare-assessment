@@ -5,7 +5,6 @@ namespace App\Livewire\Listings;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Repositories\Contracts\ListingRepositoryInterface;
-use App\Services\ListingService;
 use App\Models\Listing;
 use App\Models\Category;
 
@@ -14,6 +13,9 @@ class ListingIndex extends Component
     use WithPagination;
 
     public $categories;
+    public $totalListings = 0;
+    public $availableCount = 0;
+    public $giftedCount = 0;
     public $filters = [
         'search' => '',
         'category_id' => '',
@@ -35,6 +37,14 @@ class ListingIndex extends Component
     public function mount(ListingRepositoryInterface $listingRepository)
     {
         $this->categories = Category::all();
+        $this->loadStatistics();
+    }
+
+    public function loadStatistics()
+    {
+        $this->totalListings = Listing::count();
+        $this->availableCount = Listing::where('status', 'available')->count();
+        $this->giftedCount = Listing::where('status', 'gifted')->count();
     }
 
     public function updatingFilters()

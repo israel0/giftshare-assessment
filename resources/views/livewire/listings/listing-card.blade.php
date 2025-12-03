@@ -1,4 +1,20 @@
 <div class="card listing-card shadow-sm h-100">
+
+@if($listing->status === 'gifted')
+    <div class="position-absolute top-0 end-0 m-2">
+        <span class="badge badge-gifted px-3 py-2 shadow-sm">
+            <i class="bi bi-gift-fill me-1"></i> Gifted
+        </span>
+    </div>
+@elseif($listing->status === 'available')
+    <div class="position-absolute top-0 end-0 m-2">
+        <span class="badge badge-available px-3 py-2 shadow-sm">
+            <i class="bi bi-check-circle-fill me-1"></i> Available
+        </span>
+    </div>
+@endif
+
+
     @if($listing->photos->count() > 0)
         <div class="position-relative overflow-hidden" style="height: 200px;">
             <img src="{{ Storage::url($listing->photos->first()->thumbnail_path) }}"

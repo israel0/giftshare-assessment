@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="h4 text-dark mb-0">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+   
 
     <div class="py-4 py-lg-5"> <div class="container-fluid px-sm-3 px-lg-4"> <div class="row g-4 justify-content-center"> <div class="col-lg-8"> <div class="card shadow-sm">
                         <div class="card-body p-4 p-sm-5">
