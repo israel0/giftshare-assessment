@@ -3,53 +3,62 @@
 namespace App\Http\Livewire\Interactions;
 
 use Livewire\Component;
+use App\Services\VoteService;
 use App\DTO\VoteDTO;
 use App\Models\Listing;
-use App\Services\VoteService;
+use Illuminate\Support\Facades\Auth;
 
 class Votes extends Component
 {
+
     public Listing $listing;
-    public $votesCount;
     public $userVote;
+    public $upvotesCount;
+    public $downvotesCount;
 
-    protected $listeners = ['voteUpdated' => 'refreshVotes'];
+    protected $listeners = ['voteUpdated'];
 
-    public function mount(Listing $listing)
+    public function mount($listing)
     {
         $this->listing = $listing;
-        $this->refreshVotes();
+        $this->loadVoteData();
     }
 
-    public function render()
+    public function loadVoteData()
     {
-        return view('livewire.interactions.votes');
-    }
+        $this->userVote = $this->listing->votes()
+            ->where('user_id', Auth::id())
+            ->value('type');
 
-    public function refreshVotes()
-    {
-        $this->votesCount = $this->listing->votes_count;
-        $this->userVote = app(VoteService::class)->getUserVote(
-            auth()->id(),
-            $this->listing->id
-        );
+        $this->upvotesCount = $this->listing->upvotes_count;
+        $this->downvotesCount = $this->listing->downvotes_count;
     }
 
     public function vote($type, VoteService $voteService)
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
 
         $dto = new VoteDTO(
-            userId: auth()->id(),
+            userId: Auth::id(),
             listingId: $this->listing->id,
             type: $type
         );
 
         $voteService->toggleVote($dto);
+        $this->listing->refresh();
+        $this->loadVoteData();
         $this->emit('voteUpdated');
+    }
 
-        $this->refreshVotes();
+    public function voteUpdated()
+    {
+        $this->dispatchBrowserEvent('vote-updated');
+    }
+
+    public function render()
+    {
+        return view('livewire.interactions.votes');
     }
 }

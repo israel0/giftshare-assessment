@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Interactions;
+namespace App\Livewire\Interactions;
 
 use Livewire\Component;
 use App\DTO\CommentDTO;
@@ -9,6 +9,7 @@ use App\Services\CommentService;
 
 class CommentForm extends Component
 {
+
     public Listing $listing;
     public $content = '';
     public $parentId = null;

@@ -3,60 +3,104 @@
 namespace App\Http\Livewire\Interactions;
 
 use Livewire\Component;
+use App\Services\CommentService;
+use App\DTO\CommentDTO;
 use App\Models\Listing;
-use App\Models\Comment;
+use Illuminate\Support\Facades\Auth;
 
 class Comments extends Component
 {
+
     public Listing $listing;
     public $comments;
+    public $newComment = '';
     public $replyTo = null;
     public $replyContent = '';
 
-    protected $listeners = [
-        'commentCreated' => '$refresh',
-        'commentDeleted' => '$refresh',
-    ];
+    protected $listeners = ['commentAdded', 'commentDeleted'];
 
-    public function mount(Listing $listing)
+    public function mount($listing)
     {
         $this->listing = $listing;
         $this->loadComments();
     }
 
-    public function render()
-    {
-        return view('livewire.interactions.comments');
-    }
-
     public function loadComments()
     {
-        $this->comments = Comment::with(['user', 'replies.user'])
-            ->where('listing_id', $this->listing->id)
+        $this->comments = $this->listing->comments()
             ->whereNull('parent_id')
+            ->with(['user', 'replies.user'])
             ->orderBy('created_at', 'desc')
             ->get();
     }
 
-    public function replyTo($commentId)
+    public function addComment(CommentService $commentService)
+    {
+        $this->validate([
+            'newComment' => 'required|string|min:3|max:1000'
+        ]);
+
+        $dto = new CommentDTO(
+            userId: Auth::id(),
+            listingId: $this->listing->id,
+            content: $this->newComment,
+            parentId: null
+        );
+
+        $commentService->createComment($dto);
+
+        $this->newComment = '';
+        $this->loadComments();
+        $this->emit('commentAdded');
+    }
+
+    public function replyToComment($commentId)
     {
         $this->replyTo = $commentId;
         $this->dispatchBrowserEvent('focus-reply-input');
     }
 
-    public function cancelReply()
+    public function addReply(CommentService $commentService, $parentId)
     {
-        $this->replyTo = null;
+        $this->validate([
+            'replyContent' => 'required|string|min:3|max:1000'
+        ]);
+
+        $dto = new CommentDTO(
+            userId: Auth::id(),
+            listingId: $this->listing->id,
+            content: $this->replyContent,
+            parentId: $parentId
+        );
+
+        $commentService->createComment($dto);
+
         $this->replyContent = '';
+        $this->replyTo = null;
+        $this->loadComments();
+        $this->emit('commentAdded');
     }
 
-    public function deleteComment(Comment $comment)
+    public function deleteComment(CommentService $commentService, $commentId)
     {
-        $this->authorize('delete', $comment);
+        $comment = \App\Models\Comment::findOrFail($commentId);
 
-        $comment->delete();
+        if ($comment->user_id !== Auth::id() && $this->listing->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $commentService->deleteComment($comment);
+        $this->loadComments();
         $this->emit('commentDeleted');
+    }
 
-        session()->flash('message', 'Comment deleted successfully!');
+    public function commentAdded()
+    {
+        $this->dispatchBrowserEvent('comment-added');
+    }
+
+    public function render()
+    {
+        return view('livewire.interactions.comments');
     }
 }

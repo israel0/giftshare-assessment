@@ -2,28 +2,22 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use App\Repositories\Contracts\ListingRepositoryInterface;
 use App\Repositories\Contracts\VoteRepositoryInterface;
 use App\Repositories\ListingRepository;
 use App\Repositories\VoteRepository;
-use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class RepositoryServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->bind(ListingRepositoryInterface::class, ListingRepository::class);
         $this->app->bind(VoteRepositoryInterface::class, VoteRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        
     }
 }

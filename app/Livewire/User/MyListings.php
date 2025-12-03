@@ -1,26 +1,53 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Livewire\User;
 
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Repositories\Contracts\ListingRepositoryInterface;
+use App\Services\ListingService;
+use Illuminate\Support\Facades\Auth;
 
 class MyListings extends Component
 {
     use WithPagination;
 
-    public $status = '';
 
-    public function render(ListingRepositoryInterface $listingRepository)
+    public $listings;
+
+    public function mount(ListingRepositoryInterface $listingRepository)
     {
-        $listings = $listingRepository->getUserListings(
-            auth()->id(),
-            $this->status
-        );
+        $this->listings = $listingRepository->getUserListings(Auth::id());
+    }
 
-        return view('livewire.user.my-listings', [
-            'listings' => $listings,
-        ]);
+    public function markAsGifted(ListingService $listingService, $listingId)
+    {
+        $listing = \App\Models\Listing::findOrFail($listingId);
+
+        if ($listing->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $listingService->markAsGifted($listing);
+        $this->listings = $listingService->getUserListings(Auth::id());
+        session()->flash('message', 'Listing marked as gifted!');
+    }
+
+    public function deleteListing(ListingService $listingService, $listingId)
+    {
+        $listing = \App\Models\Listing::findOrFail($listingId);
+
+        if ($listing->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $listingService->deleteListing($listing);
+        $this->listings = $listingService->getUserListings(Auth::id());
+        session()->flash('message', 'Listing deleted successfully!');
+    }
+
+    public function render()
+    {
+        return view('livewire.user.my-listings');
     }
 }

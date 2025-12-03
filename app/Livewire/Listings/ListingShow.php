@@ -1,56 +1,47 @@
 <?php
 
-namespace App\Http\Livewire\Listings;
+namespace App\Livewire\Listings;
 
 use Livewire\Component;
-use App\Models\Listing;
 use App\Services\ListingService;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Listing;
 
 class ListingShow extends Component
 {
     public Listing $listing;
+    public $slug;
 
-    protected $listeners = [
-        'commentCreated' => '$refresh',
-        'commentDeleted' => '$refresh',
-        'voteUpdated' => '$refresh',
-        'listingMarkedAsGifted' => '$refresh',
-    ];
-
-    public function mount($slug)
+    public function mount($slug, ListingService $listingService)
     {
-        $this->listing = Listing::with([
-            'user',
-            'category',
-            'photos',
-            'comments.user',
-            'votes'
-        ])->where('slug', $slug)->firstOrFail();
-    }
-
-    public function render()
-    {
-        return view('livewire.listings.show');
+        $this->listing = Listing::where('slug', $slug)
+            ->with(['user', 'category', 'photos', 'comments.user'])
+            ->firstOrFail();
     }
 
     public function markAsGifted(ListingService $listingService)
     {
-        $this->authorize('update', $this->listing);
+        if ($this->listing->user_id !== auth()->id()) {
+            abort(403);
+        }
 
-        $listingService->markAsGifted($this->listing);
-        $this->emit('listingMarkedAsGifted');
-
+        $this->listing = $listingService->markAsGifted($this->listing);
         session()->flash('message', 'Listing marked as gifted!');
     }
 
     public function deleteListing(ListingService $listingService)
     {
-        $this->authorize('delete', $this->listing);
+        if ($this->listing->user_id !== auth()->id()) {
+            abort(403);
+        }
 
         $listingService->deleteListing($this->listing);
-
         session()->flash('message', 'Listing deleted successfully!');
-        return redirect()->route('listings.index');
+
+        return redirect()->route('listings.listing-index');
+    }
+
+    public function render()
+    {
+        return view('livewire.listings.show');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Listings;
+namespace App\Http\Livewire\Listings;
 
 use Livewire\Component;
 use Livewire\WithPagination;

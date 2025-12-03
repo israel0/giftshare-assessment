@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('listing_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['upvote', 'downvote']);
             $table->timestamps();
+
+            $table->unique(['user_id', 'listing_id']);
+            $table->index(['listing_id', 'type']);
+            $table->index(['user_id', 'created_at']);
         });
     }
 
