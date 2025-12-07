@@ -43,6 +43,6 @@ class ListingShow extends Component
 
     public function render()
     {
-        return view('livewire.listings.listing-show');
+        return view('livewire.pages.listings.listing-show');
     }
 }

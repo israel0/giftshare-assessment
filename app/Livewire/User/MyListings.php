@@ -48,6 +48,6 @@ class MyListings extends Component
 
     public function render()
     {
-        return view('livewire.user.my-listings');
+        return view('livewire.pages.user.my-listings');
     }
 }

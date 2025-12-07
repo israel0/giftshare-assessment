@@ -26,7 +26,7 @@ class CommentForm extends Component
 
     public function render()
     {
-        return view('livewire.interactions.comment-form');
+        return view('livewire.pages.interactions.comment-form');
     }
 
     public function save(CommentService $commentService)

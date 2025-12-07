@@ -11,7 +11,7 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-vh-100 d-flex flex-column bg-light">
-            @include('livewire.layout.navigation')
+            @include('components.layouts.navigation')
 
             @isset($header)
                 <header class="bg-white shadow">

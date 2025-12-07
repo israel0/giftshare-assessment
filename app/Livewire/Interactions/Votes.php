@@ -63,6 +63,6 @@ class Votes extends Component
 
     public function render()
     {
-        return view('livewire.interactions.votes');
+        return view('livewire.pages.interactions.votes');
     }
 }

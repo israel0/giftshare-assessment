@@ -90,7 +90,7 @@ class ListingForm extends Component
 
     public function render()
     {
-            return view('livewire.listings.listing-form', [
+            return view('livewire.pages.listings.listing-form', [
                 'categories' => $this->categories
             ]);
     }

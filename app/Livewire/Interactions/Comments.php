@@ -116,6 +116,6 @@ class Comments extends Component
 
     public function render()
     {
-        return view('livewire.interactions.comments');
+        return view('livewire.pages.interactions.comments');
     }
 }

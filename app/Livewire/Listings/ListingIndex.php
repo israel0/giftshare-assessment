@@ -56,7 +56,7 @@ class ListingIndex extends Component
     {
         $listings = $listingRepository->filter($this->filters);
 
-        return view('livewire.listings.listing-index', [
+        return view('livewire.pages.listings.listing-index', [
             'listings' => $listings
         ]);
     }

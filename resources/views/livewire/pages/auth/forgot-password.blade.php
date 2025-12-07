@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
+new #[Layout('components.layouts.guest')] class extends Component
 {
     public string $email = '';
 
@@ -17,7 +17,7 @@ new #[Layout('layouts.guest')] class extends Component
             'email' => ['required', 'string', 'email'],
         ]);
 
-     
+
         $status = Password::sendResetLink(
             $this->only('email')
         );

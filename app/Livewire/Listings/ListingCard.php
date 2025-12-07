@@ -49,6 +49,6 @@ class ListingCard extends Component
 
     public function render()
     {
-        return view('livewire.listings.listing-card');
+        return view('livewire.pages.listings.listing-card');
     }
 }
