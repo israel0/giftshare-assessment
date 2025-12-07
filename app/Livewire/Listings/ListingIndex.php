@@ -37,14 +37,18 @@ class ListingIndex extends Component
     public function mount(ListingRepositoryInterface $listingRepository)
     {
         $this->categories = Category::all();
-        $this->loadStatistics();
+        $this->loadStatistics($listingRepository); 
     }
 
-    public function loadStatistics()
+    /**
+     * @param ListingRepositoryInterface $listingRepository
+     */
+    public function loadStatistics(ListingRepositoryInterface $listingRepository)
     {
-        $this->totalListings = Listing::count();
-        $this->availableCount = Listing::where('status', 'available')->count();
-        $this->giftedCount = Listing::where('status', 'gifted')->count();
+        $stats = $listingRepository->getStatistics(); 
+        $this->totalListings = $stats['totalListings'];
+        $this->availableCount = $stats['availableCount'];
+        $this->giftedCount = $stats['giftedCount'];
     }
 
     public function updatingFilters()

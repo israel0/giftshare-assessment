@@ -93,4 +93,27 @@ class ListingRepository extends EloquentRepository implements ListingRepositoryI
             ->latest()
             ->paginate(15);
     }
+
+    public function getStatistics(): array
+    {
+        $stats = $this->model->selectRaw('
+            COUNT(*) as totalListings,
+            COUNT(CASE WHEN status = "available" THEN 1 END) as availableCount,
+            COUNT(CASE WHEN status = "gifted" THEN 1 END) as giftedCount
+        ')->first();
+
+        if ($stats) {
+            return [
+                'totalListings' => (int) $stats->totalListings,
+                'availableCount' => (int) $stats->availableCount,
+                'giftedCount' => (int) $stats->giftedCount,
+            ];
+        }
+
+        return [
+            'totalListings' => 0,
+            'availableCount' => 0,
+            'giftedCount' => 0,
+        ];
+    }
 }

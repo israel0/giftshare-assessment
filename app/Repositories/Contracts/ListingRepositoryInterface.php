@@ -16,4 +16,5 @@ interface ListingRepositoryInterface
     public function deleteListing(Listing $listing): bool;
     public function filter(array $filters): LengthAwarePaginator;
     public function getUserListings(int $userId): LengthAwarePaginator;
+    public function getStatistics(): array;
 }
