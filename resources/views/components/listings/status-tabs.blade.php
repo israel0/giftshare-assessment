@@ -5,6 +5,7 @@
         Available ({{ $availableCount }})
     </button>
 
+    
     <button wire:click="$set('filters.status', 'gifted')"
             class="btn btn-link text-decoration-none px-3 py-2 {{ $active === 'gifted' ? 'active border-bottom-2 border-primary text-primary fw-bold' : 'text-muted' }}">
         <i class="bi bi-gift me-2"></i>
